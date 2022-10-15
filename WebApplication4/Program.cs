@@ -1,7 +1,9 @@
 using Localization;
+using Localization.Utility;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Localization;
+using Services.Repository;
 using System.Globalization;
 using System.Reflection;
 
@@ -15,19 +17,22 @@ namespace WebApplication4
 
             // Add services to the container.
             //For Localization
-            builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
-
+            builder.Services.AddLocalization();
+            
             builder.Services.AddControllersWithViews()
-                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddViewLocalization()
                 .AddDataAnnotationsLocalization(opt =>
                 {
-                    var type = typeof(SharedResources);
-                    var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
-                    var factory = builder.Services.BuildServiceProvider().GetService<IStringLocalizerFactory>();
-                    var localizer = factory.Create("SharedResource", assemblyName.Name);
-                    opt.DataAnnotationLocalizerProvider = (t, f) => localizer;
+                    //var type = typeof(SharedResources);
+                    //var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
+                    // var factory = builder.Services.BuildServiceProvider().GetService<CustomStringLocalizerFactory>();
+                    //var localizer = factory.Create("SharedResource", assemblyName.Name);
+                    // opt.DataAnnotationLocalizerProvider = (t, f) => localizer;
+                     opt.DataAnnotationLocalizerProvider = (t, f) => f.Create(typeof(CustomStringLocalizer));
                 });
+            builder.Services.AddSingleton<IStringLocalizerFactory, CustomStringLocalizerFactory>();
             //End Localization 
+            builder.Services.AddSingleton<ILocalizationServices,LocalizationServices>();
 
             var app = builder.Build();
 

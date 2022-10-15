@@ -1,6 +1,7 @@
 ﻿@using Localization
 @using Localization.Models
+@using Localization.Utility
 @using Microsoft.Extensions.Localization
 
-@inject IStringLocalizer<SharedResources> sharedResources
+@inject IStringLocalizer<CustomStringLocalizer> sharedResources
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

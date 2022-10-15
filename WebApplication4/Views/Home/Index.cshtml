@@ -1,8 +1,18 @@
-﻿@{
+﻿@model UserModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
+    <form asp-action="SubmitData" method="post">
+        <label asp-for="UserName" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="UserName" class="form-control" placeholder="UserName">
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+        <button type="submit">Submit here</button>
+    </form>
+
     <h1>@sharedResources["Name"]</h1>
     <h1>@sharedResources["Title"]</h1>
     <span>UtcNow</span>  @System.DateTime.UtcNow;
